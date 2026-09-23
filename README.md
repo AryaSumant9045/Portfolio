@@ -50,6 +50,7 @@ components/
   ProjectVisual.tsx    Per-project abstract motif
   Achievements.tsx     Kaggle + Yoga cards
   Contact.tsx          Email / GitHub / LinkedIn + contact form
+  ThemeToggle.tsx      Dark/light switch in the navbar
   ContactForm.tsx      Name / email / message form
   MascotVideo.tsx      Animated mascot loop in About (SVG fallback)
   MascotRobot.tsx      Drawn SVG mascot, used if the video is unavailable
@@ -98,6 +99,23 @@ content changes never require touching JSX.
 - Visible focus rings on all interactive elements, plus a skip-to-content link.
 - Hover-revealed project detail is always expanded below `lg`, so touch users
   never lose content.
+
+## Theming (dark default, light optional)
+
+Dark is the default and lives on `:root` in `app/globals.css`; light is opt-in
+by setting `data-theme="light"` on `<html>`. Every surface, hairline, gradient
+and canvas colour resolves through a token, so a new theme only has to restate
+the `[data-theme="light"]` block.
+
+The toggle sits in the navbar. The choice is stored in `localStorage` and
+applied by a tiny inline script before first paint, so there is no flash.
+`color-scheme` is set per theme, so native form controls and scrollbars follow.
+
+The mascot is theme-aware: the clip has a dark studio backdrop, which cannot be
+hidden on a white page, so light mode swaps in the drawn SVG mascot (no
+backdrop at all, plus a tinted halo and edge shadow). Which layer shows is
+decided in CSS, so server and client markup match; the video is paused whenever
+light is active.
 
 ## Portrait
 
