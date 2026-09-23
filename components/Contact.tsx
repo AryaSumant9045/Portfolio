@@ -3,12 +3,14 @@ import Magnetic from "@/components/Magnetic";
 import Reveal from "@/components/Reveal";
 import { profile, socials } from "@/lib/data";
 
+const github = socials.find((s) => s.label === "GitHub");
+
 export default function Contact() {
   return (
     <section id="contact" className="relative overflow-hidden py-28 sm:py-36">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-1/4 mx-auto h-[26rem] max-w-4xl rounded-full bg-[radial-gradient(ellipse,rgba(99,102,241,0.20),rgba(34,211,238,0.09)_46%,transparent_72%)] blur-[110px] animate-glow"
+        className="animate-glow pointer-events-none absolute inset-x-0 top-1/4 mx-auto h-[26rem] max-w-4xl rounded-full bg-[radial-gradient(ellipse,var(--blob-brand),var(--blob-aqua)_46%,transparent_72%)] blur-[110px]"
       />
 
       <div className="relative mx-auto max-w-[1280px] px-6 sm:px-8">
@@ -43,27 +45,24 @@ export default function Contact() {
                   {profile.email}
                 </a>
               </Magnetic>
-              <Magnetic strength={0.2}>
-                <a
-                  href="https://github.com/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn btn-ghost"
-                >
-                  GitHub
-                </a>
-              </Magnetic>
+              {github ? (
+                <Magnetic strength={0.2}>
+                  <a
+                    href={github.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn btn-ghost"
+                  >
+                    {github.label}
+                  </a>
+                </Magnetic>
+              ) : null}
             </div>
           </Reveal>
         </div>
 
-        <Reveal delay={0.12} amount={0.15}>
-          <div className="mx-auto mt-20 max-w-3xl">
-            <ContactForm />
-          </div>
-        </Reveal>
-
-        <div className="mt-4 grid gap-4 sm:grid-cols-3">
+        {/* Ways to reach me, sitting between the buttons above and the form below. */}
+        <div className="mt-16 grid gap-4 sm:grid-cols-3">
           {socials.map((social, index) => (
             <Reveal key={social.label} delay={index * 0.07} amount={0.2}>
               <a
@@ -72,9 +71,9 @@ export default function Contact() {
                 rel={social.href.startsWith("http") ? "noreferrer" : undefined}
                 className="group glass ring-glow flex items-center justify-between rounded-2xl px-6 py-5 transition-transform duration-500 ease-cinema hover:-translate-y-1.5"
               >
-                <span>
+                <span className="min-w-0">
                   <span className="mono-label">{social.label}</span>
-                  <span className="mt-2 block font-display text-[14.5px] font-medium text-ink/90 transition-colors duration-300 group-hover:text-aqua">
+                  <span className="mt-2 block truncate font-display text-[14.5px] font-medium text-ink/90 transition-colors duration-300 group-hover:text-aqua">
                     {social.value}
                   </span>
                 </span>
@@ -88,6 +87,12 @@ export default function Contact() {
             </Reveal>
           ))}
         </div>
+
+        <Reveal delay={0.1} amount={0.12}>
+          <div className="mx-auto mt-6 max-w-3xl">
+            <ContactForm />
+          </div>
+        </Reveal>
       </div>
     </section>
   );

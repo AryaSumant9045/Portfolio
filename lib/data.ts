@@ -197,6 +197,54 @@ export const projects: Project[] = [
       { label: "Live site", href: "#projects" },
     ],
   },
+  {
+    id: "finbot",
+    index: "05",
+    title: "FinBot — Automated Trading System",
+    category: "Algorithmic Trading",
+    summary:
+      "A trading bot that turns a written strategy into live orders: market data in, risk-checked positions out, with every decision recorded.",
+    detail:
+      "The signal is the easy half. The hard half is the plumbing around it — reconnecting to the market feed without missing a bar, making order placement idempotent so a retry can never double-fill, and putting a risk layer in front of execution that is allowed to veto any order. Every fill is written to a trade ledger next to the signal that produced it, so a bad day can be reconstructed instead of guessed at.",
+    highlights: [
+      "Market data ingestion with reconnect and backoff handling",
+      "Strategy layer kept separate from execution, so the same signal can run in backtest and in live",
+      "Risk controls that cap exposure and can veto an order before it ever leaves",
+      "Structured trade ledger linking each fill back to its originating signal",
+      "Monitoring and alerting on fills, execution errors, and drawdown",
+    ],
+    tags: ["Python", "Market Data", "Backtesting", "Risk Controls", "Automation"],
+    stack: "Python · Broker API · Strategy engine · Monitoring",
+    accent: "brand",
+    links: [
+      { label: "GitHub", href: "https://github.com/AryaSumant9045" },
+      { label: "Write-up", href: "#projects" },
+    ],
+  },
+  {
+    id: "bihar-dashboard",
+    index: "06",
+    title: "Bihar Dashboard",
+    category: "Real-Time AI Platform",
+    summary:
+      "A live command dashboard covering every district of Bihar, with an agent that watches district signals continuously and an AI layer that writes the situation summary.",
+    detail:
+      "Built for the Bihar President's office. Every district reports into one board, so the state is readable at a glance instead of across a dozen spreadsheets. A monitoring agent runs continuously over incoming district data, raises the movements that actually matter, and an LLM layer turns those signals into a plain-language live summary — the reader gets the so-what, not another table. The engineering problem is keeping the board fresh: incremental ingestion rather than full recomputation, cached aggregates behind the heavy views, and a summary pipeline that degrades gracefully when a district goes quiet.",
+    highlights: [
+      "Live coverage across every district of Bihar on a single board",
+      "Continuous monitoring agent that watches district signals and raises events",
+      "LLM-generated live summary that refreshes as new data lands",
+      "Incremental ingestion and cached aggregates to keep the dashboard responsive",
+      "Built signal-first for a decision maker, not as another reporting table",
+    ],
+    tags: ["Real-Time", "AI Agents", "Data Pipeline", "LLM Summaries", "Dashboards"],
+    stack: "Next.js · Python · Real-time pipeline · LLM agent",
+    accent: "aqua",
+    links: [
+      { label: "GitHub", href: "https://github.com/AryaSumant9045" },
+      { label: "Overview", href: "#projects" },
+    ],
+  },
 ];
 
 export const achievements = [

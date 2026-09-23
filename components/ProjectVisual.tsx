@@ -26,7 +26,7 @@ function Motif({ id }: { id: string }) {
           <span
             key={index}
             className={`h-1.5 w-1.5 rounded-full ${
-              on ? "bg-aqua shadow-[0_0_10px_2px_rgba(34,211,238,0.6)]" : "bg-white/12"
+              on ? "bg-aqua shadow-[0_0_10px_2px_rgba(34,211,238,0.6)]" : "bg-fill-strong"
             }`}
           />
         ))}
@@ -50,8 +50,8 @@ function Motif({ id }: { id: string }) {
 
   return (
     <div className="relative h-full w-full">
-      <span className="absolute left-[18%] top-[26%] h-[62%] w-[46%] rounded-[14px] border border-white/12 bg-white/[0.03]" />
-      <span className="absolute left-[30%] top-[38%] h-[62%] w-[46%] rounded-[14px] border border-white/15 bg-white/[0.05]" />
+      <span className="absolute left-[18%] top-[26%] h-[62%] w-[46%] rounded-[14px] border border-line-strong bg-fill-soft" />
+      <span className="absolute left-[30%] top-[38%] h-[62%] w-[46%] rounded-[14px] border border-line-strong bg-fill" />
       <span className="absolute left-[42%] top-[50%] h-[62%] w-[46%] rounded-[14px] border border-aqua/40 bg-gradient-to-br from-brand/25 to-aqua/15 shadow-[0_16px_40px_-18px_rgba(34,211,238,0.9)]" />
     </div>
   );
@@ -61,12 +61,12 @@ export default function ProjectVisual({ project }: { project: Project }) {
   const isBrand = project.accent === "brand";
 
   return (
-    <div className="relative h-[190px] w-full overflow-hidden border-b border-white/8">
+    <div className="relative h-[190px] w-full overflow-hidden border-b border-line-soft">
       <div
         className={`absolute inset-0 origin-center transition-transform duration-700 ease-cinema group-hover:scale-[1.06] ${
           isBrand
-            ? "bg-[linear-gradient(135deg,rgba(99,102,241,0.22),rgba(13,13,26,0.2)_46%,rgba(34,211,238,0.14))]"
-            : "bg-[linear-gradient(135deg,rgba(34,211,238,0.18),rgba(13,13,26,0.2)_46%,rgba(99,102,241,0.2))]"
+            ? "bg-[linear-gradient(135deg,var(--blob-brand),var(--preview-mid)_46%,var(--blob-aqua))]"
+            : "bg-[linear-gradient(135deg,var(--blob-aqua),var(--preview-mid)_46%,var(--blob-brand))]"
         }`}
       />
 
@@ -74,7 +74,7 @@ export default function ProjectVisual({ project }: { project: Project }) {
         className="absolute inset-0 origin-center opacity-60 transition-transform duration-700 ease-cinema group-hover:scale-[1.06]"
         style={{
           backgroundImage:
-            "linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)",
+            "linear-gradient(to right, var(--grid-line) 1px, transparent 1px), linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px)",
           backgroundSize: "34px 34px",
         }}
       />
@@ -83,7 +83,7 @@ export default function ProjectVisual({ project }: { project: Project }) {
         <Motif id={project.id} />
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#0b0b14] to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-elevated to-transparent" />
 
       <span className="absolute left-6 top-5 font-display text-[11px] font-medium uppercase tracking-[0.22em] text-ink/60">
         {project.stack}

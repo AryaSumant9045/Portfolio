@@ -63,8 +63,19 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${grotesk.variable} ${inter.variable}`}>
+    <html
+      lang="en"
+      className={`${grotesk.variable} ${inter.variable}`}
+      suppressHydrationWarning
+    >
       <body className="grain relative min-h-screen bg-void text-ink antialiased">
+        {/* Applies the saved theme before first paint, so there is no flash. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(localStorage.getItem('theme')==='light'){document.documentElement.dataset.theme='light'}}catch(e){}",
+          }}
+        />
         <a
           href="#hero"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-elevated focus:px-5 focus:py-2 focus:text-sm focus:text-ink"

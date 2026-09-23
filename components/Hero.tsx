@@ -24,9 +24,9 @@ export default function Hero() {
     >
       {/* Background stack */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-40 -top-48 h-[38rem] w-[38rem] rounded-full bg-[radial-gradient(circle,rgba(99,102,241,0.30),transparent_62%)] blur-[110px] animate-drift" />
-        <div className="absolute -right-32 top-0 h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(circle,rgba(34,211,238,0.22),transparent_62%)] blur-[110px] animate-drift-slow" />
-        <div className="absolute -bottom-56 left-1/3 h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(circle,rgba(0,245,255,0.14),transparent_66%)] blur-[120px] animate-float" />
+        <div className="absolute -left-40 -top-48 h-[38rem] w-[38rem] rounded-full bg-[radial-gradient(circle,var(--blob-brand),transparent_62%)] blur-[110px] animate-drift" />
+        <div className="absolute -right-32 top-0 h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(circle,var(--blob-aqua),transparent_62%)] blur-[110px] animate-drift-slow" />
+        <div className="absolute -bottom-56 left-1/3 h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(circle,var(--blob-neon),transparent_66%)] blur-[120px] animate-float" />
         <div className="grid-plane absolute inset-0 opacity-70" />
         <div className="absolute inset-0">
           <ParticleField />
@@ -43,7 +43,7 @@ export default function Hero() {
             variants={stagger}
           >
             <motion.div variants={fadeUp}>
-              <span className="inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 backdrop-blur-xl">
+              <span className="inline-flex items-center gap-2.5 rounded-full border border-line bg-fill px-4 py-2 backdrop-blur-xl">
                 <span className="relative flex h-1.5 w-1.5">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-aqua opacity-75" />
                   <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-aqua" />
@@ -106,7 +106,7 @@ export default function Hero() {
               className="mt-14 grid max-w-2xl grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-4"
             >
               {profile.stats.map((stat) => (
-                <div key={stat.label} className="border-l border-white/10 pl-4">
+                <div key={stat.label} className="border-l border-line pl-4">
                   <dt className="font-display text-2xl font-semibold tracking-[-0.02em] text-ink">
                     {stat.value}
                   </dt>
@@ -118,13 +118,16 @@ export default function Hero() {
             </motion.dl>
           </motion.div>
 
+          {/* The orb also shows on phones now, just scaled down. */}
           <motion.div
-            className="hidden lg:col-span-5 lg:block"
+            className="col-span-1 mt-4 flex justify-center lg:col-span-5 lg:mt-0 lg:justify-end"
             initial={reduced ? false : { opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.3, ease: EASE, delay: 0.25 }}
           >
-            <OrbVisual />
+            <div className="w-full max-w-[240px] sm:max-w-[320px] lg:max-w-[480px]">
+              <OrbVisual />
+            </div>
           </motion.div>
         </div>
       </div>
@@ -136,7 +139,7 @@ export default function Hero() {
       >
         <div className="flex flex-col items-center gap-2.5">
           <span className="text-[10px] uppercase tracking-[0.34em] text-faint">Scroll</span>
-          <span className="relative h-12 w-px overflow-hidden bg-white/10">
+          <span className="relative h-12 w-px overflow-hidden bg-fill-strong">
             <span className="absolute inset-x-0 top-0 h-4 animate-scan bg-gradient-to-b from-transparent via-aqua to-transparent" />
           </span>
         </div>

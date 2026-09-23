@@ -78,7 +78,7 @@ export default function Projects() {
                         ))}
                       </div>
 
-                      <div className="mt-6 flex items-center gap-5 border-t border-white/8 pt-5">
+                      <div className="mt-6 flex items-center gap-5 border-t border-line-soft pt-5">
                         {project.links.map((link) => (
                           <a
                             key={link.label}

@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { navLinks } from "@/lib/data";
 import Magnetic from "@/components/Magnetic";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const SECTION_IDS = ["hero", "about", "skills", "projects", "achievements", "contact"];
 
@@ -88,7 +89,7 @@ export default function Navbar() {
                     {isActive ? (
                       <motion.span
                         layoutId="nav-pill"
-                        className="absolute inset-0 -z-10 rounded-full bg-white/[0.07] ring-1 ring-white/10"
+                        className="absolute inset-0 -z-10 rounded-full bg-fill-strong ring-1 ring-line"
                         transition={{ type: "spring", stiffness: 380, damping: 32 }}
                       />
                     ) : null}
@@ -100,6 +101,8 @@ export default function Navbar() {
           </ul>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle />
+
             <div className="hidden md:block">
               <Magnetic strength={0.22}>
                 <a href="#contact" className="btn btn-ghost px-5 py-2.5 text-[13px]">
@@ -113,7 +116,7 @@ export default function Navbar() {
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
               onClick={() => setOpen((value) => !value)}
-              className="grid h-10 w-10 place-items-center rounded-full border border-white/12 bg-white/5 md:hidden"
+              className="grid h-10 w-10 place-items-center rounded-full border border-line-strong bg-fill md:hidden"
             >
               <span className="relative block h-3 w-4">
                 <span
@@ -155,7 +158,7 @@ export default function Navbar() {
                       initial={{ opacity: 0, x: -12 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.05 + index * 0.05, duration: 0.35 }}
-                      className="flex items-center justify-between rounded-2xl px-4 py-3.5 text-[15px] text-muted transition-colors hover:bg-white/5 hover:text-ink"
+                      className="flex items-center justify-between rounded-2xl px-4 py-3.5 text-[15px] text-muted transition-colors hover:bg-fill hover:text-ink"
                     >
                       {link.label}
                       <span aria-hidden className="text-aqua/70">

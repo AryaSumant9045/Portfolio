@@ -31,14 +31,14 @@ function OrbitStage() {
   return (
     <div className="orbit-stage relative mx-auto aspect-square w-full max-w-[500px]">
       {/* Bloom */}
-      <div className="absolute inset-[20%] rounded-full bg-[radial-gradient(circle,rgba(99,102,241,0.32),rgba(34,211,238,0.1)_48%,transparent_72%)] blur-[60px] animate-glow" />
+      <div className="absolute inset-[20%] rounded-full bg-[radial-gradient(circle,var(--blob-brand),var(--blob-aqua)_48%,transparent_72%)] blur-[60px] animate-glow" />
 
       {/* Orbit guides */}
       <div className="orbit-trace" style={{ inset: `${50 - 41.5}%` }} />
-      <div className="orbit-trace" style={{ inset: `${50 - 24}%`, borderStyle: "solid", borderColor: "rgba(255,255,255,0.06)" }} />
+      <div className="orbit-trace" style={{ inset: `${50 - 24}%`, borderStyle: "solid", borderColor: "var(--orbit-trace)" }} />
 
       {/* Core */}
-      <div className="absolute inset-[37%] rounded-full border border-white/12 bg-[radial-gradient(circle_at_34%_30%,rgba(255,255,255,0.9),rgba(165,180,252,0.5)_28%,rgba(99,102,241,0.28)_55%,rgba(10,10,15,0.85)_80%)] shadow-[0_0_50px_-6px_rgba(34,211,238,0.55)]" />
+      <div className="absolute inset-[37%] rounded-full border border-line-strong bg-[radial-gradient(circle_at_34%_30%,var(--orb-1),var(--orb-2)_28%,var(--orb-3)_55%,var(--orb-4)_80%)] shadow-[0_0_50px_-6px_rgba(34,211,238,0.55)]" />
 
       {RINGS.map((ring) => (
         <div

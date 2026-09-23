@@ -50,7 +50,7 @@ export default function ContactForm() {
 
   return (
     <div className="glass-strong relative overflow-hidden rounded-3xl">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/8 px-7 py-5">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line-soft px-7 py-5">
         <div>
           <h3 className="font-display text-[17px] font-semibold tracking-[-0.01em] text-ink">
             Send a message
@@ -143,7 +143,7 @@ export default function ContactForm() {
             aria-live="polite"
             className={`text-[13px] leading-snug ${
               status === "error"
-                ? "text-[#fca5a5]"
+                ? "text-danger"
                 : status === "sent"
                   ? "text-aqua"
                   : "text-faint"

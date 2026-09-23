@@ -12,6 +12,7 @@
 
   /* Text */
   --color-ink: #f5f5f7;
+  --color-soft-text: #c9c9d6;
   --color-muted: #8b8b9e;
   --color-faint: #5c5c70;
 
@@ -20,9 +21,15 @@
   --color-aqua: #22d3ee;
   --color-neon: #00f5ff;
 
-  /* Glass + hairlines */
-  --color-hairline: rgba(255, 255, 255, 0.1);
-  --color-glass: rgba(255, 255, 255, 0.05);
+  /* Lines + fills */
+  --color-danger: #fca5a5;
+
+  --color-line: rgba(255, 255, 255, 0.1);
+  --color-line-soft: rgba(255, 255, 255, 0.07);
+  --color-line-strong: rgba(255, 255, 255, 0.15);
+  --color-fill: rgba(255, 255, 255, 0.05);
+  --color-fill-soft: rgba(255, 255, 255, 0.03);
+  --color-fill-strong: rgba(255, 255, 255, 0.08);
 
   /* Type */
   --font-sans: var(--font-body), ui-sans-serif, system-ui, -apple-system, sans-serif;
@@ -39,6 +46,141 @@
   --animate-orbit-rev: orbit-spin-rev 46s linear infinite;
   --animate-glow: glow 5s ease-in-out infinite;
   --animate-scan: scan 7s ease-in-out infinite;
+}
+
+
+/* ==========================================================================
+   Theme variables. Dark is the default; light is opt-in via
+   <html data-theme="light">. Every surface, line and gradient below resolves
+   through one of these, so a new theme only has to restate this block.
+   ========================================================================== */
+:root {
+  color-scheme: dark;
+
+  --glass-hi: rgba(255, 255, 255, 0.075);
+  --glass-mid: rgba(255, 255, 255, 0.03);
+  --glass-lo: rgba(255, 255, 255, 0.015);
+
+  --grad-ink-1: #ffffff;
+  --grad-ink-2: #c7d2fe;
+  --grad-ink-3: #818cf8;
+  --grad-ink-4: #67e8f9;
+
+  --grad-accent-1: #7c83f5;
+  --grad-accent-2: #34d8ef;
+  --grad-accent-3: #22e6ff;
+
+  --line-rgb: 255 255 255;
+  --divider-a: rgba(99, 102, 241, 0.5);
+  --divider-b: rgba(34, 211, 238, 0.55);
+  --spotlight-a: rgba(99, 102, 241, 0.18);
+  --spotlight-b: rgba(34, 211, 238, 0.07);
+  --grid-line: rgba(255, 255, 255, 0.055);
+  --orbit-trace: rgba(255, 255, 255, 0.09);
+
+  --orb-1: rgba(255, 255, 255, 0.95);
+  --orb-2: rgba(165, 180, 252, 0.55);
+  --orb-3: rgba(99, 102, 241, 0.35);
+  --orb-4: rgba(10, 10, 15, 0.9);
+  --preview-mid: rgba(13, 13, 26, 0.2);
+
+  --blob-brand: rgba(99, 102, 241, 0.3);
+  --blob-aqua: rgba(34, 211, 238, 0.22);
+  --blob-neon: rgba(0, 245, 255, 0.14);
+
+  --portal-inner: rgba(99, 102, 241, 0.34);
+  --portal-mid: rgba(12, 12, 22, 0.9);
+
+  --grain-alpha: 0.032;
+  --grain-blend: overlay;
+
+  --cursor-ring: rgba(139, 92, 246, 0.65);
+  --cursor-ring-hot: rgba(0, 245, 255, 0.85);
+  --cursor-dot: #00f5ff;
+  --particle-dot: rgba(199, 210, 254, 0.5);
+  --drawn-halo-1: rgba(99, 102, 241, 0.22);
+  --drawn-halo-2: rgba(34, 211, 238, 0.12);
+
+  --media-well: #0b0b14;
+  --media-vignette: rgba(10, 10, 15, 0.8);
+
+  --btn-primary-ink: #05050a;
+  --card-shadow: 0 18px 60px -24px rgba(0, 0, 0, 0.9);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --color-void: #f4f4f7;
+  --color-abyss: #ffffff;
+  --color-elevated: #ffffff;
+  --color-ink: #131318;
+  --color-soft-text: #3f4048;
+  --color-muted: #55565f;
+  --color-faint: #7d7e89;
+
+  --color-brand: #5b5cf0;
+  --color-aqua: #0b7c93;
+  --color-neon: #0e7490;
+
+  --color-danger: #b91c1c;
+
+  --color-line: rgba(19, 19, 24, 0.12);
+  --color-line-soft: rgba(19, 19, 24, 0.08);
+  --color-line-strong: rgba(19, 19, 24, 0.18);
+  --color-fill: rgba(19, 19, 24, 0.04);
+  --color-fill-soft: rgba(19, 19, 24, 0.025);
+  --color-fill-strong: rgba(19, 19, 24, 0.07);
+
+  --glass-hi: rgba(255, 255, 255, 0.9);
+  --glass-mid: rgba(255, 255, 255, 0.7);
+  --glass-lo: rgba(255, 255, 255, 0.5);
+
+  --grad-ink-1: #101014;
+  --grad-ink-2: #3b3fa8;
+  --grad-ink-3: #4f46e5;
+  --grad-ink-4: #0e7490;
+
+  --grad-accent-1: #4f46e5;
+  --grad-accent-2: #0891b2;
+  --grad-accent-3: #0e7490;
+
+  --line-rgb: 19 19 24;
+  --divider-a: rgba(79, 70, 229, 0.45);
+  --divider-b: rgba(8, 145, 178, 0.5);
+  --spotlight-a: rgba(99, 102, 241, 0.12);
+  --spotlight-b: rgba(8, 145, 178, 0.06);
+  --grid-line: rgba(19, 19, 24, 0.07);
+  --orbit-trace: rgba(19, 19, 24, 0.12);
+
+  --orb-1: #ffffff;
+  --orb-2: rgba(199, 210, 254, 0.95);
+  --orb-3: rgba(129, 140, 248, 0.45);
+  --orb-4: rgba(246, 246, 249, 0.92);
+  --preview-mid: rgba(255, 255, 255, 0.3);
+
+  --blob-brand: rgba(99, 102, 241, 0.16);
+  --blob-aqua: rgba(8, 145, 178, 0.12);
+  --blob-neon: rgba(8, 145, 178, 0.09);
+
+  --portal-inner: rgba(10, 12, 20, 0.88);
+  --portal-mid: rgba(10, 12, 20, 0.62);
+
+  --grain-alpha: 0.02;
+  --grain-blend: multiply;
+
+  --cursor-ring: rgba(79, 70, 229, 0.55);
+  --cursor-ring-hot: rgba(14, 116, 144, 0.85);
+  --cursor-dot: #0e7490;
+  --particle-dot: rgba(71, 85, 145, 0.55);
+  --drawn-halo-1: rgba(99, 102, 241, 0.2);
+  --drawn-halo-2: rgba(8, 145, 178, 0.12);
+
+  --media-well: #0b0b14;
+  --media-vignette: rgba(10, 10, 15, 0.8);
+
+  --btn-primary-ink: #08070f;
+  --card-shadow: 0 18px 50px -30px rgba(20, 20, 35, 0.35);
 }
 
 /* ==========================================================================
@@ -129,7 +271,7 @@
 
   ::selection {
     background: color-mix(in oklab, var(--color-brand) 45%, transparent);
-    color: #ffffff;
+    color: var(--color-ink);
   }
 
   :focus-visible {
@@ -143,15 +285,23 @@
     height: 10px;
   }
   ::-webkit-scrollbar-track {
-    background: #08080c;
+    background: var(--color-void);
   }
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, rgba(99, 102, 241, 0.55), rgba(34, 211, 238, 0.4));
+    background: linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--color-brand) 55%, transparent),
+      color-mix(in oklab, var(--color-aqua) 40%, transparent)
+    );
     border-radius: 999px;
-    border: 2px solid #08080c;
+    border: 2px solid var(--color-void);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, rgba(99, 102, 241, 0.85), rgba(34, 211, 238, 0.7));
+    background: linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--color-brand) 85%, transparent),
+      color-mix(in oklab, var(--color-aqua) 70%, transparent)
+    );
   }
 }
 
@@ -162,22 +312,22 @@
 @layer components {
   /* ---- Surfaces ---- */
   .glass {
-    background: rgba(255, 255, 255, 0.045);
+    background: var(--color-fill);
     backdrop-filter: blur(20px) saturate(140%);
     -webkit-backdrop-filter: blur(20px) saturate(140%);
-    border: 1px solid rgba(255, 255, 255, 0.09);
+    border: 1px solid var(--color-line);
   }
 
   .glass-strong {
     background: linear-gradient(
       160deg,
-      rgba(255, 255, 255, 0.075) 0%,
-      rgba(255, 255, 255, 0.03) 45%,
-      rgba(255, 255, 255, 0.015) 100%
+      var(--glass-hi) 0%,
+      var(--glass-mid) 45%,
+      var(--glass-lo) 100%
     );
     backdrop-filter: blur(28px) saturate(150%);
     -webkit-backdrop-filter: blur(28px) saturate(150%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--color-line);
   }
 
   /* Page-wide film grain: one fixed, composited layer — no scroll cost. */
@@ -187,24 +337,37 @@
     inset: -50%;
     z-index: 60;
     pointer-events: none;
-    opacity: 0.032;
-    mix-blend-mode: overlay;
+    opacity: var(--grain-alpha);
+    mix-blend-mode: var(--grain-blend);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
   /* ---- Type treatments ---- */
   .gradient-text {
-    background-image: linear-gradient(100deg, #ffffff 0%, #c7d2fe 34%, #818cf8 74%, #67e8f9 100%);
+    background-image: linear-gradient(
+      100deg,
+      var(--grad-ink-1) 0%,
+      var(--grad-ink-2) 34%,
+      var(--grad-ink-3) 74%,
+      var(--grad-ink-4) 100%
+    );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    -webkit-text-fill-color: transparent;
   }
 
   .gradient-text-accent {
-    background-image: linear-gradient(100deg, #6366f1 0%, #22d3ee 58%, #00f5ff 100%);
+    background-image: linear-gradient(
+      100deg,
+      var(--grad-accent-1) 0%,
+      var(--grad-accent-2) 58%,
+      var(--grad-accent-3) 100%
+    );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    -webkit-text-fill-color: transparent;
   }
 
   .mono-label {
@@ -221,16 +384,16 @@
     background: linear-gradient(
       90deg,
       transparent,
-      rgba(99, 102, 241, 0.5) 25%,
-      rgba(34, 211, 238, 0.55) 55%,
+      var(--divider-a) 25%,
+      var(--divider-b) 55%,
       transparent
     );
   }
 
   .grid-plane {
     background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
     background-size: 68px 68px;
     -webkit-mask-image: radial-gradient(ellipse 78% 62% at 50% 8%, #000 20%, transparent 78%);
     mask-image: radial-gradient(ellipse 78% 62% at 50% 8%, #000 20%, transparent 78%);
@@ -247,8 +410,8 @@
     transition: opacity 0.4s var(--ease-cinema);
     background: radial-gradient(
       360px circle at var(--mx, 50%) var(--my, 0%),
-      rgba(99, 102, 241, 0.18),
-      rgba(34, 211, 238, 0.07) 42%,
+      var(--spotlight-a),
+      var(--spotlight-b) 42%,
       transparent 70%
     );
   }
@@ -272,9 +435,9 @@
     transition: opacity 0.4s var(--ease-cinema);
     background: linear-gradient(
       135deg,
-      rgba(99, 102, 241, 0.95),
-      rgba(34, 211, 238, 0.85) 55%,
-      rgba(0, 245, 255, 0.4)
+      color-mix(in oklab, var(--color-brand) 95%, transparent),
+      color-mix(in oklab, var(--color-aqua) 85%, transparent) 55%,
+      color-mix(in oklab, var(--color-neon) 40%, transparent)
     );
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,
@@ -326,7 +489,7 @@
   .orbit-trace {
     position: absolute;
     border-radius: 999px;
-    border: 1px dashed rgba(255, 255, 255, 0.09);
+    border: 1px dashed var(--orbit-trace);
   }
 
   /* ---- Buttons + chips ---- */
@@ -355,44 +518,49 @@
   }
 
   .btn-primary {
-    color: #05050a;
-    background-image: linear-gradient(100deg, #a5b4fc 0%, #22d3ee 55%, #00f5ff 100%);
+    color: var(--btn-primary-ink);
+    background-image: linear-gradient(
+      100deg,
+      color-mix(in oklab, var(--color-brand) 55%, #ffffff) 0%,
+      var(--color-aqua) 55%,
+      color-mix(in oklab, var(--color-aqua) 60%, #ffffff) 100%
+    );
     box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.08),
-      0 10px 34px -12px rgba(34, 211, 238, 0.75);
+      inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+      0 10px 34px -12px color-mix(in oklab, var(--color-aqua) 70%, transparent);
   }
 
   .btn-primary:hover {
     box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.16),
-      0 16px 46px -10px rgba(34, 211, 238, 0.95);
+      inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+      0 16px 46px -10px color-mix(in oklab, var(--color-aqua) 90%, transparent);
   }
 
   .btn-ghost {
     color: var(--color-ink);
-    background: rgba(255, 255, 255, 0.045);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--color-fill);
+    border: 1px solid var(--color-line-strong);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
   }
 
   .btn-ghost:hover {
-    border-color: rgba(34, 211, 238, 0.55);
-    background: rgba(34, 211, 238, 0.09);
-    box-shadow: 0 12px 34px -16px rgba(34, 211, 238, 0.8);
+    border-color: color-mix(in oklab, var(--color-aqua) 55%, transparent);
+    background: color-mix(in oklab, var(--color-aqua) 9%, transparent);
+    box-shadow: 0 12px 34px -16px color-mix(in oklab, var(--color-aqua) 70%, transparent);
   }
 
   .chip {
     display: inline-flex;
     align-items: center;
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--color-line-strong);
+    background: var(--color-fill);
     padding: 0.32rem 0.72rem;
     font-size: 0.72rem;
     font-weight: 500;
     letter-spacing: 0.02em;
-    color: #c9c9d6;
+    color: var(--color-soft-text);
     white-space: nowrap;
     transition:
       color 0.25s var(--ease-cinema),
@@ -403,10 +571,10 @@
   }
 
   .chip:hover {
-    color: #ffffff;
-    border-color: rgba(34, 211, 238, 0.6);
-    background: rgba(34, 211, 238, 0.12);
-    box-shadow: 0 0 24px -6px rgba(34, 211, 238, 0.75);
+    color: var(--color-ink);
+    border-color: color-mix(in oklab, var(--color-aqua) 60%, transparent);
+    background: color-mix(in oklab, var(--color-aqua) 12%, transparent);
+    box-shadow: 0 0 24px -6px color-mix(in oklab, var(--color-aqua) 65%, transparent);
     transform: translateY(-2px);
   }
 }
@@ -426,8 +594,8 @@
   .field {
     width: 100%;
     border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--color-line-strong);
+    background: var(--color-fill-soft);
     padding: 0.8rem 1rem;
     font-family: inherit;
     font-size: 0.92rem;
@@ -443,16 +611,16 @@
   }
 
   .field:hover {
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: color-mix(in oklab, var(--color-ink) 25%, transparent);
   }
 
   /* The glow ring is the focus indicator; no default outline on top of it. */
   .field:focus,
   .field:focus-visible {
     outline: none;
-    border-color: rgba(34, 211, 238, 0.6);
-    background: rgba(34, 211, 238, 0.05);
-    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.13);
+    border-color: color-mix(in oklab, var(--color-aqua) 60%, transparent);
+    background: color-mix(in oklab, var(--color-aqua) 5%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-aqua) 13%, transparent);
   }
 
   .btn:disabled {
@@ -466,6 +634,222 @@
 
   .btn:disabled:active {
     transform: none;
+  }
+}
+
+/* ==========================================================================
+   4b. Mascot robot + portrait
+   ========================================================================== */
+@layer components {
+  .mascot-float {
+    animation: mascot-float 6.5s ease-in-out infinite;
+  }
+  .mascot-sway {
+    animation: mascot-sway 9.5s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .mascot-shadow {
+    animation: mascot-shadow 6.5s ease-in-out infinite;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .mascot-ring {
+    animation: mascot-ring 6.5s ease-in-out infinite;
+  }
+  .mascot-eyes {
+    animation: mascot-eyes 3.6s ease-in-out infinite;
+  }
+  .mascot-halo {
+    animation: mascot-halo 6.5s ease-in-out infinite;
+  }
+  .mascot-spark {
+    animation: mascot-spark 5.2s ease-in-out infinite;
+  }
+
+  /* Media sits in the same card language as every other surface on the page. */
+  /*
+   * Mascot clip treatment. The clip carries its own studio backdrop, so two
+   * layers hide it: a soft-edged mask on the video (the fade lives in the
+   * clip's outer margin, which is empty background) and a "portal" behind it
+   * that stays dark out to the video's visible edge. The result has no
+   * rectangular boundary in either theme.
+   */
+  .mascot-portal {
+    position: absolute;
+    inset: -12%;
+    border-radius: 999px;
+    pointer-events: none;
+    filter: blur(26px);
+    background: radial-gradient(
+      ellipse 50% 50% at 50% 50%,
+      var(--portal-inner) 0%,
+      var(--portal-mid) 72%,
+      transparent 100%
+    );
+  }
+
+  /*
+   * Two nested single-layer masks rather than one element with two mask layers:
+   * the fade has to run on both axes, and mask-composite support was not
+   * reliable enough to depend on. Nested masks multiply naturally.
+   */
+  .mascot-mask-y {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 6%,
+      #000 93%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 6%, #000 93%, transparent 100%);
+  }
+
+  .mascot-mask-x {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      #000 15%,
+      #000 85%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(to right, transparent 0%, #000 15%, #000 85%, transparent 100%);
+  }
+
+  /*
+   * The clip carries a dark studio backdrop. That is invisible on the dark
+   * theme but can never be hidden on a white page — a dark rectangle on light
+   * is a dark rectangle no matter how soft its edge is. So the light theme
+   * swaps in the drawn mascot, which has no backdrop at all, and gets a soft
+   * tinted halo plus a shadow so its pale body still reads on white.
+   */
+  .mascot-layer-drawn {
+    display: none;
+    position: relative;
+  }
+
+  .mascot-layer-drawn::before {
+    content: "";
+    position: absolute;
+    inset: -6%;
+    border-radius: 999px;
+    pointer-events: none;
+    filter: blur(32px);
+    background: radial-gradient(
+      ellipse 52% 56% at 50% 48%,
+      var(--drawn-halo-1),
+      var(--drawn-halo-2) 58%,
+      transparent 100%
+    );
+  }
+
+  [data-theme="light"] .mascot-layer-video {
+    display: none;
+  }
+
+  [data-theme="light"] .mascot-layer-drawn {
+    display: block;
+  }
+
+  [data-theme="light"] .mascot-layer-drawn svg {
+    position: relative;
+    /* The tight first shadow is an edge, not a glow: it keeps the pale body
+       and arms readable against a near-white page. */
+    filter: drop-shadow(0 0 1.5px rgba(18, 18, 40, 0.42))
+      drop-shadow(0 20px 34px rgba(20, 20, 45, 0.22));
+  }
+
+  [data-theme="light"] .mascot-layer-drawn .mr-body {
+    stroke: rgba(18, 18, 40, 0.2);
+    stroke-width: 1.2;
+  }
+
+  .portrait-frame {
+    position: relative;
+    overflow: hidden;
+    border-radius: 18px;
+    border: 1px solid var(--color-line-strong);
+    background: linear-gradient(
+      160deg,
+      color-mix(in oklab, var(--color-brand) 16%, transparent),
+      color-mix(in oklab, var(--color-aqua) 7%, transparent)
+    );
+  }
+}
+
+@keyframes mascot-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-16px);
+  }
+}
+
+@keyframes mascot-sway {
+  0%,
+  100% {
+    transform: rotate(-2.4deg);
+  }
+  50% {
+    transform: rotate(2.4deg);
+  }
+}
+
+@keyframes mascot-shadow {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(0.84);
+    opacity: 0.22;
+  }
+}
+
+@keyframes mascot-ring {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+@keyframes mascot-eyes {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes mascot-halo {
+  0%,
+  100% {
+    opacity: 0.42;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.68;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes mascot-spark {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.25;
+  }
+  50% {
+    transform: translateY(-14px);
+    opacity: 0.8;
   }
 }
 
@@ -486,15 +870,15 @@
   width: 6px;
   height: 6px;
   margin: -3px 0 0 -3px;
-  background: #00f5ff;
-  box-shadow: 0 0 12px rgba(0, 245, 255, 0.9);
+  background: var(--cursor-dot);
+  box-shadow: 0 0 12px color-mix(in oklab, var(--cursor-dot) 90%, transparent);
 }
 
 .cursor-ring {
   width: 34px;
   height: 34px;
   margin: -17px 0 0 -17px;
-  border: 1px solid rgba(139, 92, 246, 0.65);
+  border: 1px solid var(--cursor-ring);
   transition:
     width 0.25s var(--ease-cinema),
     height 0.25s var(--ease-cinema),
@@ -507,8 +891,8 @@
   width: 58px;
   height: 58px;
   margin: -29px 0 0 -29px;
-  background: rgba(99, 102, 241, 0.12);
-  border-color: rgba(0, 245, 255, 0.85);
+  background: color-mix(in oklab, var(--color-brand) 12%, transparent);
+  border-color: var(--cursor-ring-hot);
 }
 
 html.cursor-hidden,

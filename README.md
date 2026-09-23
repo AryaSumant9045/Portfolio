@@ -51,6 +51,9 @@ components/
   Achievements.tsx     Kaggle + Yoga cards
   Contact.tsx          Email / GitHub / LinkedIn + contact form
   ContactForm.tsx      Name / email / message form
+  MascotVideo.tsx      Animated mascot loop in About (SVG fallback)
+  MascotRobot.tsx      Drawn SVG mascot, used if the video is unavailable
+  Portrait.tsx         Portrait slot in About
   SpotlightCard.tsx    rAF-throttled cursor spotlight wrapper
   Magnetic.tsx         Cursor-magnetic button wrapper
   CustomCursor.tsx     Dot + trailing ring cursor
@@ -60,8 +63,14 @@ components/
   Footer.tsx
 app/api/contact/
   route.ts             SMTP endpoint behind the contact form
+public/
+  mascot.webm          VP9 mascot loop (served first)
+  mascot.mp4           H.264 fallback
+  mascot-poster.jpg    Poster frame
+  portrait.*           Drop your portrait here (see below)
 lib/
   data.ts              All site content in one place
+  portrait.ts          Server-side portrait lookup
 ```
 
 ## Editing content
@@ -89,6 +98,38 @@ content changes never require touching JSX.
 - Visible focus rings on all interactive elements, plus a skip-to-content link.
 - Hover-revealed project detail is always expanded below `lg`, so touch users
   never lose content.
+
+## Portrait
+
+Drop the image in as `public/portrait.jpg` (`.jpeg`, `.png`, `.webp` and `.avif`
+also work) and run a build. The About section picks it up automatically; until
+then it shows a monogram placeholder rather than a broken image.
+
+`lib/portrait.ts` does the lookup on the server at build time, so nothing
+probes for a missing file in the browser.
+
+## Mascot loop
+
+`public/mascot.webm` / `mascot.mp4` is the animated robot in the About section.
+It is muted, inline, looping, and behind a radial bloom inside a framed card.
+
+> **Attribution:** the clip was supplied by the site owner from a Dribbble shot
+> ("3D Mascot for Crypto Landing Page" by *Bogdan for Zajno*). It is third-party
+> work — get the author's permission or replace it with your own before
+> publishing. The drawn SVG fallback in `MascotRobot.tsx` is original.
+
+To regenerate the encoded files from a source clip:
+
+```bash
+ffmpeg -i source.mp4 -an -vf "crop=1440:1080:80:60,fps=24,scale=960:720" \
+  -c:v libvpx-vp9 -crf 41 -b:v 0 -row-mt 1 -cpu-used 4 public/mascot.webm
+ffmpeg -i source.mp4 -an -vf "crop=1440:1080:80:60,fps=24,scale=960:720" \
+  -c:v libx264 -crf 25 -preset slow -pix_fmt yuv420p \
+  -movflags +faststart public/mascot.mp4
+```
+
+If the media is missing or unplayable, the section falls back to the drawn SVG
+mascot instead of leaving an empty box.
 
 ## Contact form (Gmail SMTP)
 

@@ -44,7 +44,7 @@ export default function Achievements() {
             <Reveal key={item.title} delay={index * 0.09} amount={0.2} className="h-full">
               <SpotlightCard className="h-full">
                 <div className="group glass-strong ring-glow spotlight relative flex h-full gap-5 rounded-3xl p-7 transition-transform duration-500 ease-cinema hover:-translate-y-1.5">
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-white/12 bg-gradient-to-br from-brand/25 to-aqua/15 text-aqua">
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-line-strong bg-gradient-to-br from-brand/25 to-aqua/15 text-aqua">
                     {ICONS[item.title]}
                   </span>
                   <div>
@@ -52,7 +52,7 @@ export default function Achievements() {
                       <h3 className="font-display text-lg font-semibold tracking-[-0.02em] text-ink">
                         {item.title}
                       </h3>
-                      <span className="rounded-full border border-white/12 bg-white/5 px-2.5 py-0.5 text-[10.5px] uppercase tracking-[0.18em] text-faint">
+                      <span className="rounded-full border border-line-strong bg-fill px-2.5 py-0.5 text-[10.5px] uppercase tracking-[0.18em] text-faint">
                         {item.meta}
                       </span>
                     </div>

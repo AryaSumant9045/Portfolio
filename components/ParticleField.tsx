@@ -40,6 +40,43 @@ export default function ParticleField({ className }: Props) {
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    /**
+     * The canvas cannot use CSS variables directly, so the palette is read from
+     * the theme and re-read whenever <html data-theme> changes.
+     */
+    type Palette = { brand: string; aqua: string; neon: string; dot: string };
+
+    const hexToRgb = (hex: string): [number, number, number] => {
+      const raw = hex.trim().replace("#", "");
+      const full =
+        raw.length === 3
+          ? raw
+              .split("")
+              .map((c) => c + c)
+              .join("")
+          : raw;
+      const n = Number.parseInt(full, 16);
+      return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+    };
+
+    const readPalette = (): Palette => {
+      const cs = getComputedStyle(document.documentElement);
+      const rgbOf = (name: string, fallback: string) => {
+        const raw = cs.getPropertyValue(name).trim();
+        const hex = raw.startsWith("#") ? raw : fallback;
+        const [r, g, b] = hexToRgb(hex);
+        return `${r}, ${g}, ${b}`;
+      };
+      return {
+        brand: rgbOf("--color-brand", "#6366f1"),
+        aqua: rgbOf("--color-aqua", "#22d3ee"),
+        neon: rgbOf("--color-neon", "#00f5ff"),
+        dot: cs.getPropertyValue("--particle-dot").trim() || "rgba(199, 210, 254, 0.5)",
+      };
+    };
+
+    let palette = readPalette();
+
     let width = 0;
     let height = 0;
     let particles: Particle[] = [];
@@ -89,7 +126,7 @@ export default function ParticleField({ className }: Props) {
           const dist = Math.hypot(dx, dy);
           if (dist > LINK_DISTANCE) continue;
           const alpha = (1 - dist / LINK_DISTANCE) * 0.26;
-          ctx.strokeStyle = `rgba(99, 102, 241, ${alpha.toFixed(3)})`;
+          ctx.strokeStyle = `rgba(${palette.brand}, ${alpha.toFixed(3)})`;
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
@@ -103,7 +140,7 @@ export default function ParticleField({ className }: Props) {
         const pdist = Math.hypot(pdx, pdy);
         if (pdist < POINTER_RADIUS) {
           const alpha = (1 - pdist / POINTER_RADIUS) * 0.5;
-          ctx.strokeStyle = `rgba(34, 211, 238, ${alpha.toFixed(3)})`;
+          ctx.strokeStyle = `rgba(${palette.aqua}, ${alpha.toFixed(3)})`;
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
@@ -113,7 +150,7 @@ export default function ParticleField({ className }: Props) {
 
         ctx.beginPath();
         ctx.fillStyle =
-          pdist < POINTER_RADIUS ? "rgba(0, 245, 255, 0.85)" : "rgba(199, 210, 254, 0.5)";
+          pdist < POINTER_RADIUS ? `rgba(${palette.neon}, 0.85)` : palette.dot;
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fill();
       }
@@ -191,6 +228,15 @@ export default function ParticleField({ className }: Props) {
     const resizeObserver = new ResizeObserver(() => resize());
     resizeObserver.observe(canvas);
 
+    const themeObserver = new MutationObserver(() => {
+      palette = readPalette();
+      if (reduced) draw();
+    });
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+
     window.addEventListener("pointermove", onPointerMove, { passive: true });
     document.addEventListener("pointerleave", onPointerLeave);
     document.addEventListener("visibilitychange", onVisibility);
@@ -199,6 +245,7 @@ export default function ParticleField({ className }: Props) {
       stop();
       observer.disconnect();
       resizeObserver.disconnect();
+      themeObserver.disconnect();
       window.removeEventListener("pointermove", onPointerMove);
       document.removeEventListener("pointerleave", onPointerLeave);
       document.removeEventListener("visibilitychange", onVisibility);
