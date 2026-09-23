@@ -40,6 +40,13 @@ const escapeHtml = (value: string): string =>
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
+/**
+ * Every branch logs its outcome, so a submission that did not turn into an
+ * email is visible in the host's function logs instead of failing silently.
+ */
+const log = (outcome: string, extra: Record<string, unknown> = {}) =>
+  console.info(`[contact] ${outcome}`, JSON.stringify(extra));
+
 export async function POST(request: Request) {
   let payload: unknown;
   try {
@@ -50,8 +57,14 @@ export async function POST(request: Request) {
 
   const body = (payload ?? {}) as Record<string, unknown>;
 
-  // Honeypot: hidden from humans, irresistible to bots. Pretend it worked.
-  if (toText(body.company, 200)) {
+  /*
+   * Honeypot. The client only reports a value here if the field was actually
+   * focused, because browser autofill happily fills hidden inputs — an
+   * earlier version used a field named "company" and autofill silently
+   * swallowed real messages. Non-empty now means a bot, not a browser.
+   */
+  if (toText(body.hp, 200)) {
+    log("dropped-honeypot");
     return NextResponse.json({ ok: true });
   }
 
@@ -60,15 +73,18 @@ export async function POST(request: Request) {
   const message = toText(body.message, LIMITS.message);
 
   if (name.length < 2) {
+    log("invalid-name");
     return NextResponse.json({ error: "Please enter your name." }, { status: 400 });
   }
   if (!EMAIL_RE.test(email)) {
+    log("invalid-email", { email });
     return NextResponse.json(
       { error: "Please enter a valid email address." },
       { status: 400 },
     );
   }
   if (message.length < 10) {
+    log("invalid-message", { length: message.length });
     return NextResponse.json(
       { error: "Please write a slightly longer message." },
       { status: 400 },
@@ -78,6 +94,7 @@ export async function POST(request: Request) {
   const ip =
     (request.headers.get("x-forwarded-for") ?? "local").split(",")[0].trim() || "local";
   if (isRateLimited(ip)) {
+    log("rate-limited", { ip });
     return NextResponse.json(
       { error: "Too many messages sent. Please try again later." },
       { status: 429 },
@@ -92,6 +109,7 @@ export async function POST(request: Request) {
   const to = (process.env.MAIL_TO || user)?.trim();
 
   if (!user || !pass || !to) {
+    log("not-configured", { hasUser: Boolean(user), hasPass: Boolean(pass), hasTo: Boolean(to) });
     return NextResponse.json(
       { error: "Email is not configured on the server yet." },
       { status: 503 },
@@ -125,6 +143,7 @@ export async function POST(request: Request) {
       ].join(""),
     });
   } catch (error) {
+    log("send-failed", { message: error instanceof Error ? error.message : String(error) });
     console.error("[contact] send failed:", error);
     return NextResponse.json(
       { error: "Could not send the message right now. Please email me directly." },
@@ -132,5 +151,6 @@ export async function POST(request: Request) {
     );
   }
 
+  log("sent", { from: safeEmail, nameLength: safeName.length, messageLength: message.length });
   return NextResponse.json({ ok: true });
 }

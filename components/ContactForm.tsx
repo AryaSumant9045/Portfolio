@@ -1,13 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
-const EMPTY = { name: "", email: "", message: "", company: "" };
+const EMPTY = { name: "", email: "", message: "", hp: "" };
 
 export default function ContactForm() {
   const [form, setForm] = useState(EMPTY);
+  // Autofill never focuses a field; a human (or a script driving a real
+  // browser) does. So a honeypot hit only counts if the field was focused.
+  const hpFocused = useRef(false);
   const [status, setStatus] = useState<Status>("idle");
   const [feedback, setFeedback] = useState("");
 
@@ -26,7 +29,7 @@ export default function ContactForm() {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, hp: hpFocused.current ? form.hp : "" }),
       });
 
       const data: { error?: string } = await response.json().catch(() => ({}));
@@ -118,17 +121,28 @@ export default function ContactForm() {
           />
         </div>
 
-        {/* Honeypot — hidden from people, catnip for bots. */}
+        {/*
+          Honeypot. Deliberately NOT named anything a browser autofill or
+          password manager would target — an earlier "company" field got
+          autofilled and silently ate real submissions. Values are ignored
+          unless the field was focused.
+        */}
         <div aria-hidden className="absolute -left-[9999px] top-0 h-0 w-0 overflow-hidden">
-          <label htmlFor="contact-company">Company</label>
+          <label htmlFor="contact-hp">Leave this empty</label>
           <input
-            id="contact-company"
-            name="company"
+            id="contact-hp"
+            name="hp_confirm"
             type="text"
             tabIndex={-1}
             autoComplete="off"
-            value={form.company}
-            onChange={update("company")}
+            data-lpignore="true"
+            data-1p-ignore="true"
+            data-form-type="other"
+            value={form.hp}
+            onFocus={() => {
+              hpFocused.current = true;
+            }}
+            onChange={update("hp")}
           />
         </div>
 
