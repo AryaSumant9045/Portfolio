@@ -1,0 +1,533 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   1. Design tokens — the single source of truth for the visual language.
+      Everything visual resolves back to one of these.
+   ========================================================================== */
+@theme {
+  /* Surfaces */
+  --color-void: #0a0a0f;
+  --color-abyss: #0d0d1a;
+  --color-elevated: #12121f;
+
+  /* Text */
+  --color-ink: #f5f5f7;
+  --color-muted: #8b8b9e;
+  --color-faint: #5c5c70;
+
+  /* Accents */
+  --color-brand: #6366f1;
+  --color-aqua: #22d3ee;
+  --color-neon: #00f5ff;
+
+  /* Glass + hairlines */
+  --color-hairline: rgba(255, 255, 255, 0.1);
+  --color-glass: rgba(255, 255, 255, 0.05);
+
+  /* Type */
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-grotesk), ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* Motion */
+  --ease-cinema: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-float: float 9s ease-in-out infinite;
+  --animate-drift: drift 26s ease-in-out infinite;
+  --animate-drift-slow: drift 38s ease-in-out infinite reverse;
+  --animate-orbit: orbit-spin 46s linear infinite;
+  --animate-orbit-slow: orbit-spin 68s linear infinite;
+  --animate-orbit-rev: orbit-spin-rev 46s linear infinite;
+  --animate-glow: glow 5s ease-in-out infinite;
+  --animate-scan: scan 7s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   2. Keyframes — declared top level so they are always emitted, independent
+      of which --animate-* tokens happen to be used in the markup.
+   ========================================================================== */
+@keyframes float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(4%, -6%, 0) scale(1.08);
+  }
+  66% {
+    transform: translate3d(-5%, 4%, 0) scale(0.96);
+  }
+}
+
+@keyframes orbit-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-spin-rev {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes scan {
+  0%,
+  100% {
+    transform: translateY(-130%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(130%);
+    opacity: 0.75;
+  }
+}
+
+/* ==========================================================================
+   3. Base
+   ========================================================================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-void);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-brand) 45%, transparent);
+    color: #ffffff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-aqua);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #08080c;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(99, 102, 241, 0.55), rgba(34, 211, 238, 0.4));
+    border-radius: 999px;
+    border: 2px solid #08080c;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(99, 102, 241, 0.85), rgba(34, 211, 238, 0.7));
+  }
+}
+
+/* ==========================================================================
+   4. Components — kept in the components layer so Tailwind utilities can
+      still override individual properties at the call site.
+   ========================================================================== */
+@layer components {
+  /* ---- Surfaces ---- */
+  .glass {
+    background: rgba(255, 255, 255, 0.045);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+  }
+
+  .glass-strong {
+    background: linear-gradient(
+      160deg,
+      rgba(255, 255, 255, 0.075) 0%,
+      rgba(255, 255, 255, 0.03) 45%,
+      rgba(255, 255, 255, 0.015) 100%
+    );
+    backdrop-filter: blur(28px) saturate(150%);
+    -webkit-backdrop-filter: blur(28px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Page-wide film grain: one fixed, composited layer — no scroll cost. */
+  .grain::after {
+    content: "";
+    position: fixed;
+    inset: -50%;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.032;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---- Type treatments ---- */
+  .gradient-text {
+    background-image: linear-gradient(100deg, #ffffff 0%, #c7d2fe 34%, #818cf8 74%, #67e8f9 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .gradient-text-accent {
+    background-image: linear-gradient(100deg, #6366f1 0%, #22d3ee 58%, #00f5ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .mono-label {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--color-faint);
+  }
+
+  /* ---- Decor ---- */
+  .divider {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(99, 102, 241, 0.5) 25%,
+      rgba(34, 211, 238, 0.55) 55%,
+      transparent
+    );
+  }
+
+  .grid-plane {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+    background-size: 68px 68px;
+    -webkit-mask-image: radial-gradient(ellipse 78% 62% at 50% 8%, #000 20%, transparent 78%);
+    mask-image: radial-gradient(ellipse 78% 62% at 50% 8%, #000 20%, transparent 78%);
+  }
+
+  /* Cursor-tracking spotlight; --mx/--my are written by SpotlightCard. */
+  .spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-cinema);
+    background: radial-gradient(
+      360px circle at var(--mx, 50%) var(--my, 0%),
+      rgba(99, 102, 241, 0.18),
+      rgba(34, 211, 238, 0.07) 42%,
+      transparent 70%
+    );
+  }
+  .spotlight:hover::before,
+  .spotlight:focus-within::before {
+    opacity: 1;
+  }
+
+  /* 1px gradient border ring that lights up on hover. */
+  .ring-glow {
+    position: relative;
+  }
+  .ring-glow::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-cinema);
+    background: linear-gradient(
+      135deg,
+      rgba(99, 102, 241, 0.95),
+      rgba(34, 211, 238, 0.85) 55%,
+      rgba(0, 245, 255, 0.4)
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+  }
+  .ring-glow:hover::after,
+  .ring-glow:focus-within::after {
+    opacity: 1;
+  }
+
+  /* ---- Orbit / skill constellation ---- */
+  .orbit-stage {
+    position: relative;
+  }
+
+  .orbit-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    will-change: transform;
+  }
+
+  .orbit-slot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+  }
+
+  /* Counter-rotation keeps every label upright while the ring spins. */
+  .orbit-counter {
+    animation-name: orbit-spin-rev;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  .orbit-stage:hover .orbit-ring,
+  .orbit-stage:hover .orbit-counter,
+  .orbit-stage:focus-within .orbit-ring,
+  .orbit-stage:focus-within .orbit-counter {
+    animation-play-state: paused;
+  }
+
+  .orbit-trace {
+    position: absolute;
+    border-radius: 999px;
+    border: 1px dashed rgba(255, 255, 255, 0.09);
+  }
+
+  /* ---- Buttons + chips ---- */
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    border-radius: 999px;
+    padding: 0.9rem 1.7rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    transition:
+      transform 0.25s var(--ease-cinema),
+      box-shadow 0.3s var(--ease-cinema),
+      color 0.3s var(--ease-cinema),
+      border-color 0.3s var(--ease-cinema),
+      background-color 0.3s var(--ease-cinema);
+  }
+
+  .btn:active {
+    transform: scale(0.96);
+  }
+
+  .btn-primary {
+    color: #05050a;
+    background-image: linear-gradient(100deg, #a5b4fc 0%, #22d3ee 55%, #00f5ff 100%);
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+      0 10px 34px -12px rgba(34, 211, 238, 0.75);
+  }
+
+  .btn-primary:hover {
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.16),
+      0 16px 46px -10px rgba(34, 211, 238, 0.95);
+  }
+
+  .btn-ghost {
+    color: var(--color-ink);
+    background: rgba(255, 255, 255, 0.045);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .btn-ghost:hover {
+    border-color: rgba(34, 211, 238, 0.55);
+    background: rgba(34, 211, 238, 0.09);
+    box-shadow: 0 12px 34px -16px rgba(34, 211, 238, 0.8);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.32rem 0.72rem;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: #c9c9d6;
+    white-space: nowrap;
+    transition:
+      color 0.25s var(--ease-cinema),
+      border-color 0.25s var(--ease-cinema),
+      background-color 0.25s var(--ease-cinema),
+      box-shadow 0.25s var(--ease-cinema),
+      transform 0.25s var(--ease-cinema);
+  }
+
+  .chip:hover {
+    color: #ffffff;
+    border-color: rgba(34, 211, 238, 0.6);
+    background: rgba(34, 211, 238, 0.12);
+    box-shadow: 0 0 24px -6px rgba(34, 211, 238, 0.75);
+    transform: translateY(-2px);
+  }
+}
+
+@layer components {
+  /* ---- Form fields ---- */
+  .field-label {
+    display: block;
+    margin-bottom: 0.6rem;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-faint);
+  }
+
+  .field {
+    width: 100%;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 0.8rem 1rem;
+    font-family: inherit;
+    font-size: 0.92rem;
+    color: var(--color-ink);
+    transition:
+      border-color 0.25s var(--ease-cinema),
+      background-color 0.25s var(--ease-cinema),
+      box-shadow 0.25s var(--ease-cinema);
+  }
+
+  .field::placeholder {
+    color: var(--color-faint);
+  }
+
+  .field:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  /* The glow ring is the focus indicator; no default outline on top of it. */
+  .field:focus,
+  .field:focus-visible {
+    outline: none;
+    border-color: rgba(34, 211, 238, 0.6);
+    background: rgba(34, 211, 238, 0.05);
+    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.13);
+  }
+
+  .btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  .btn:disabled:hover {
+    box-shadow: none;
+  }
+
+  .btn:disabled:active {
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   5. Custom cursor — intentionally unlayered; it must always win.
+   ========================================================================== */
+.cursor-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 90;
+  pointer-events: none;
+  border-radius: 999px;
+  will-change: transform;
+}
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: #00f5ff;
+  box-shadow: 0 0 12px rgba(0, 245, 255, 0.9);
+}
+
+.cursor-ring {
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1px solid rgba(139, 92, 246, 0.65);
+  transition:
+    width 0.25s var(--ease-cinema),
+    height 0.25s var(--ease-cinema),
+    margin 0.25s var(--ease-cinema),
+    background-color 0.25s var(--ease-cinema),
+    border-color 0.25s var(--ease-cinema);
+}
+
+.cursor-ring[data-hot="true"] {
+  width: 58px;
+  height: 58px;
+  margin: -29px 0 0 -29px;
+  background: rgba(99, 102, 241, 0.12);
+  border-color: rgba(0, 245, 255, 0.85);
+}
+
+html.cursor-hidden,
+html.cursor-hidden * {
+  cursor: none !important;
+}
+
+/* ==========================================================================
+   6. Accessibility: collapse motion when the user asks for it.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
